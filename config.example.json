@@ -1,0 +1,53 @@
+{
+  "jira": {
+    "_comment": "For standard JIRA instances (Atlassian Cloud/Server)",
+    "base_url": "https://your-domain.atlassian.net",
+    "username": "your-email@company.com",
+    "api_token": "your-api-token-here"
+  },
+  "jira_oauth": {
+    "_comment": "For enterprise JIRA instances requiring OAuth (like Red Hat JIRA)",
+    "_enabled": false,
+    "base_url": "https://issues.redhat.com",
+    "consumer_key": "your-oauth-consumer-key",
+    "consumer_secret": "your-oauth-consumer-secret",
+    "access_token": "your-oauth-access-token",
+    "access_token_secret": "your-oauth-token-secret"
+  },
+  "projects": [
+    "PROJ1",
+    "PROJ2",
+    "TEAM"
+  ],
+  "days_back": 14,
+  "output_dir": "./reports",
+  "schedule": {
+    "enabled": true,
+    "biweekly": true,
+    "day_of_week": "monday",
+    "hour": 9,
+    "minute": 0
+  },
+  "report_settings": {
+    "include_description": false,
+    "max_recent_updates": 10,
+    "max_previous_week_updates": 5,
+    "story_points_field": "customfield_10016"
+  },
+  "status_mapping": {
+    "completed": ["Done", "Closed", "Resolved", "Complete", "Finished"],
+    "in_progress": ["In Progress", "In Development", "In Review", "Testing", "QA"],
+    "blocked": ["Blocked", "Waiting", "On Hold", "Impediment"],
+    "todo": ["To Do", "Open", "New", "Backlog", "Ready"]
+  },
+  "ai_enhancement": {
+    "_comment": "AI-powered insights and summaries for status reports",
+    "enabled": false,
+    "cursor_integration": true,
+    "gemini_selenium": false,
+    "_instructions": {
+      "cursor_integration": "Creates structured data files for Cursor IDE AI analysis",
+      "gemini_selenium": "Automates Google Gemini web interface (requires manual login)"
+    }
+  }
+}

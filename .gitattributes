@@ -1,0 +1,98 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Python files
+*.py text eol=lf
+*.pyx text eol=lf
+*.pxd text eol=lf
+*.pxi text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Configuration files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.rst text eol=lf
+*.txt text eol=lf
+
+# Web files
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+
+# Data files
+*.csv text eol=lf
+*.tsv text eol=lf
+*.xml text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+# Jupyter notebooks
+*.ipynb text eol=lf
+
+# Requirements and setup files
+requirements*.txt text eol=lf
+setup.py text eol=lf
+setup.cfg text eol=lf
+pyproject.toml text eol=lf
+Pipfile text eol=lf
+Pipfile.lock text eol=lf
+
+# Git files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.gitmodules text eol=lf
+
+# License and legal files
+LICENSE* text eol=lf
+COPYING* text eol=lf
+COPYRIGHT* text eol=lf
+
+# Documentation files
+README* text eol=lf
+CHANGELOG* text eol=lf
+HISTORY* text eol=lf
+AUTHORS* text eol=lf
+CONTRIBUTORS* text eol=lf
+INSTALL* text eol=lf
+NEWS* text eol=lf
+THANKS* text eol=lf
+TODO* text eol=lf
+
+# Template files
+*.template text eol=lf
+*.example text eol=lf
+
+# Ignore files from Git diff/merge statistics
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+
+# Mark test files as test code
+**/test_* linguist-detectable=false
+**/tests/* linguist-detectable=false
+**/*_test.py linguist-detectable=false
+
+# Mark documentation as documentation
+docs/** linguist-documentation
+*.md linguist-documentation
