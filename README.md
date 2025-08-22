@@ -11,6 +11,9 @@ A comprehensive automation tool for generating bi-weekly status updates from JIR
 - **Configurable**: Easy configuration via JSON file
 - **Timeline Analysis**: Tracks recent updates and changes
 - **Multiple Projects**: Supports multiple JIRA projects in one report
+- **🐳 Containerized Deployment**: Run with Podman/Docker containers
+- **🌐 Web Interface**: Browse and view reports through a modern web interface
+- **📊 Real-time Monitoring**: Health checks and status monitoring
 
 ## 📋 Prerequisites
 
@@ -19,6 +22,28 @@ A comprehensive automation tool for generating bi-weekly status updates from JIR
 - API token for JIRA authentication
 
 ## 🔧 Installation
+
+### Option 1: Containerized Deployment (Recommended)
+
+For a quick, isolated deployment with web interface:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd jira_status_automation
+
+# Start with Podman (recommended)
+./run-podman.sh start
+
+# Or use Make
+make start
+
+# Access web interface at http://localhost:8080
+```
+
+**For detailed container setup, see [CONTAINER_DEPLOYMENT_GUIDE.md](CONTAINER_DEPLOYMENT_GUIDE.md)**
+
+### Option 2: Local Installation
 
 1. **Clone or download the project files**
    ```bash
@@ -29,6 +54,7 @@ A comprehensive automation tool for generating bi-weekly status updates from JIR
 2. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   pip install -r requirements-web.txt  # For web interface
    ```
 
 3. **Set up configuration**
@@ -98,7 +124,28 @@ The tool supports many customization options:
 
 ## 🏃‍♂️ Usage
 
-### Test Connection
+### Containerized Usage (Recommended)
+
+```bash
+# Start the web interface
+./run-podman.sh start
+
+# Access at http://localhost:8080
+# Generate reports through the web interface or:
+
+# Generate report manually
+./run-podman.sh generate
+
+# View logs
+./run-podman.sh logs
+
+# Shell access
+./run-podman.sh shell
+```
+
+### Local Usage
+
+#### Test Connection
 
 Before running reports, test your JIRA connection:
 
@@ -106,7 +153,7 @@ Before running reports, test your JIRA connection:
 python3 jira_status_automation.py --test-connection
 ```
 
-### Generate a Report Manually
+#### Generate a Report Manually
 
 ```bash
 # Basic usage
@@ -117,6 +164,15 @@ python3 jira_status_automation.py --projects PROJ1 PROJ2 --days 7
 
 # Custom output directory
 python3 jira_status_automation.py --output /path/to/reports
+```
+
+#### Start Web Interface Locally
+
+```bash
+# Start web server
+python3 web_server.py
+
+# Access at http://localhost:8080
 ```
 
 ### Command Line Options
@@ -200,6 +256,51 @@ Enable and start the service:
 ```bash
 sudo systemctl enable jira-status-updates.service
 sudo systemctl start jira-status-updates.service
+```
+
+## 🌐 Web Interface
+
+The containerized deployment includes a modern web interface that provides:
+
+- **Report Dashboard**: Browse all generated reports with metadata
+- **Report Viewer**: Read reports with formatted markdown rendering
+- **Download Feature**: Download reports as markdown files
+- **Manual Generation**: Trigger report generation on-demand
+- **Health Monitoring**: Check system status and configuration
+- **Responsive Design**: Works on desktop and mobile devices
+
+### Web Interface Features
+
+- **Real-time Updates**: Automatically refreshes when new reports are available
+- **Search and Filter**: Find specific reports quickly
+- **Raw View Toggle**: Switch between formatted and raw markdown
+- **API Endpoints**: RESTful API for integration with other tools
+
+## 🐳 Container Deployment
+
+### Benefits of Containerized Deployment
+
+- **Isolation**: No conflicts with system Python packages
+- **Portability**: Runs consistently across different environments
+- **Security**: Runs as non-root user with minimal privileges
+- **Scalability**: Easy to deploy multiple instances
+- **Maintenance**: Simple updates and rollbacks
+
+### Container Management Commands
+
+```bash
+# Quick start
+./run-podman.sh start
+
+# View all available commands
+./run-podman.sh help
+make help
+
+# Management operations
+./run-podman.sh status    # Check container status
+./run-podman.sh logs      # View real-time logs
+./run-podman.sh generate  # Generate report manually
+./run-podman.sh shell     # Open container shell
 ```
 
 ## 📊 Report Format

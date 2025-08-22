@@ -49,5 +49,28 @@
       "cursor_integration": "Creates structured data files for Cursor IDE AI analysis",
       "gemini_selenium": "Automates Google Gemini web interface (requires manual login)"
     }
+  },
+  "web_server": {
+    "_comment": "Web interface for viewing and managing reports",
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 8080,
+    "auto_start_scheduler": true,
+    "_instructions": {
+      "host": "0.0.0.0 binds to all interfaces, 127.0.0.1 for localhost only",
+      "port": "Port number for the web server (overridden by WEB_PORT env var in containers)",
+      "auto_start_scheduler": "Automatically start background scheduler for automated report generation"
+    }
+  },
+  "container": {
+    "_comment": "Container deployment settings",
+    "data_volume": "/app/data",
+    "config_volume": "/app/config",
+    "reports_volume": "/app/reports",
+    "_instructions": {
+      "data_volume": "Mount point for persistent data (last_run.txt, etc.)",
+      "config_volume": "Mount point for configuration files",
+      "reports_volume": "Mount point for generated reports"
+    }
   }
 }
