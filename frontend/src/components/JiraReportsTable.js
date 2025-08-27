@@ -3,6 +3,41 @@ import { format, parseISO } from 'date-fns';
 import JiraCardDetailsModal from './JiraCardDetailsModal';
 
 /**
+ * Helper function to properly sort Jira keys (e.g., PROJECT-123)
+ * Sorts by project name first, then by numeric ID
+ */
+const parseJiraKey = (key) => {
+  if (!key) return { project: '', id: 0 };
+  
+  const match = key.match(/^([A-Za-z0-9]+)-(\d+)$/);
+  if (match) {
+    return {
+      project: match[1].toUpperCase(),
+      id: parseInt(match[2], 10)
+    };
+  }
+  
+  // Fallback for non-standard keys
+  return { project: key, id: 0 };
+};
+
+/**
+ * Compare two Jira keys for sorting
+ */
+const compareJiraKeys = (keyA, keyB) => {
+  const parsedA = parseJiraKey(keyA);
+  const parsedB = parseJiraKey(keyB);
+  
+  // First sort by project name
+  if (parsedA.project !== parsedB.project) {
+    return parsedA.project.localeCompare(parsedB.project);
+  }
+  
+  // Then sort by numeric ID
+  return parsedA.id - parsedB.id;
+};
+
+/**
  * JiraReportsTable Component
  * 
  * Displays Jira issues in a sortable, paginated table with expandable rows
@@ -40,41 +75,43 @@ const JiraReportsTable = ({ data, onClear, projectKey, dateRange }) => {
 
     // Sort data
     filtered.sort((a, b) => {
-      let aVal, bVal;
+      let result = 0;
 
       switch (sortField) {
         case 'key':
-          aVal = a.key || '';
-          bVal = b.key || '';
+          // Use proper Jira key sorting (project name first, then numeric ID)
+          result = compareJiraKeys(a.key || '', b.key || '');
           break;
         case 'summary':
-          aVal = a.summary || '';
-          bVal = b.summary || '';
+          const aVal = a.summary || '';
+          const bVal = b.summary || '';
+          result = aVal.localeCompare(bVal);
           break;
         case 'status':
-          aVal = a.status?.name || '';
-          bVal = b.status?.name || '';
+          const aStatus = a.status?.name || '';
+          const bStatus = b.status?.name || '';
+          result = aStatus.localeCompare(bStatus);
           break;
         case 'created':
-          aVal = new Date(a.created || 0);
-          bVal = new Date(b.created || 0);
+          const aCreated = new Date(a.created || 0);
+          const bCreated = new Date(b.created || 0);
+          result = aCreated.getTime() - bCreated.getTime();
           break;
         case 'latest_activity':
-          aVal = new Date(a.latest_activity || a.updated || 0);
-          bVal = new Date(b.latest_activity || b.updated || 0);
+          const aActivity = new Date(a.latest_activity || a.updated || 0);
+          const bActivity = new Date(b.latest_activity || b.updated || 0);
+          result = aActivity.getTime() - bActivity.getTime();
           break;
         case 'updated':
         default:
-          aVal = new Date(a.updated || 0);
-          bVal = new Date(b.updated || 0);
+          const aUpdated = new Date(a.updated || 0);
+          const bUpdated = new Date(b.updated || 0);
+          result = aUpdated.getTime() - bUpdated.getTime();
           break;
       }
 
-      if (sortDirection === 'asc') {
-        return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
-      } else {
-        return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
-      }
+      // Apply sort direction
+      return sortDirection === 'asc' ? result : -result;
     });
 
     return filtered;
