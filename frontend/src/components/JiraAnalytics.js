@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { parseISO, differenceInDays } from 'date-fns';
 
 const JiraAnalytics = ({ data }) => {
@@ -22,26 +22,16 @@ const JiraAnalytics = ({ data }) => {
     console.log('Analytics data sample:', data.slice(0, 2));
     console.log('Total issues for analytics:', data.length);
 
-    // Status distribution (include unknown if that's the main data)
+    // Status distribution - always show data, don't filter out
     const statusCounts = {};
-    let hasValidStatuses = false;
     
     data.forEach(issue => {
-      const status = issue.status?.name || 'No Status';
-      if (status.toLowerCase() !== 'unknown' && status !== 'No Status') {
-        hasValidStatuses = true;
-      }
+      const status = issue.status?.name || issue.status || 'No Status';
       statusCounts[status] = (statusCounts[status] || 0) + 1;
     });
 
-    // If we have mostly valid statuses, filter out Unknown. Otherwise, show all data.
+    // Always show all status data
     const statusDistribution = Object.entries(statusCounts)
-      .filter(([status, count]) => {
-        if (hasValidStatuses) {
-          return status.toLowerCase() !== 'unknown' && status !== 'No Status';
-        }
-        return true; // Show all data if we don't have valid statuses
-      })
       .map(([status, count]) => ({
         name: status,
         value: count,
@@ -50,25 +40,15 @@ const JiraAnalytics = ({ data }) => {
 
     console.log('Status distribution:', statusDistribution);
 
-    // Issue type distribution (include unknown if that's the main data)
+    // Issue type distribution - always show data, don't filter out
     const typeCounts = {};
-    let hasValidTypes = false;
     
     data.forEach(issue => {
-      const type = issue.issue_type?.name || 'No Type';
-      if (type.toLowerCase() !== 'unknown' && type !== 'No Type') {
-        hasValidTypes = true;
-      }
+      const type = issue.issue_type?.name || issue.issueType?.name || issue.type || 'No Type';
       typeCounts[type] = (typeCounts[type] || 0) + 1;
     });
 
     const issueTypeDistribution = Object.entries(typeCounts)
-      .filter(([type, count]) => {
-        if (hasValidTypes) {
-          return type.toLowerCase() !== 'unknown' && type !== 'No Type';
-        }
-        return true; // Show all data if we don't have valid types
-      })
       .map(([type, count]) => ({
         name: type,
         value: count
@@ -213,24 +193,7 @@ const JiraAnalytics = ({ data }) => {
 
   return (
     <div className="space-y-6">
-      {/* Debug Information - Remove this after fixing */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="card">
-          <div className="card-header">
-            <h4 className="text-lg font-medium text-gray-900">🔍 Debug Info</h4>
-          </div>
-          <div className="card-body">
-            <div className="text-xs bg-gray-100 p-4 rounded overflow-x-auto">
-              <p><strong>Total Issues:</strong> {data.length}</p>
-              <p><strong>Status Distribution:</strong> {analytics.statusDistribution.length} items</p>
-              <p><strong>Type Distribution:</strong> {analytics.issueTypeDistribution.length} items</p>
-              <p><strong>Priority Distribution:</strong> {analytics.priorityDistribution.length} items</p>
-              <p><strong>Sample Issue:</strong></p>
-              <pre>{JSON.stringify(data[0], null, 2).substring(0, 300)}...</pre>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -303,17 +266,17 @@ const JiraAnalytics = ({ data }) => {
             <h4 className="text-lg font-medium text-gray-900">Status Distribution</h4>
           </div>
           <div className="card-body">
-            {analytics.statusDistribution.length > 0 ? (
-              <div className="analytics-chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
+            <div className="analytics-chart-container">
+              {analytics.statusDistribution.length > 0 ? (
+                <div style={{ width: '100%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <PieChart width={400} height={300}>
                     <Pie
                       data={analytics.statusDistribution}
-                      cx="50%"
-                      cy="50%"
+                      cx={200}
+                      cy={150}
                       labelLine={false}
                       label={({ name, percentage }) => `${name} (${percentage}%)`}
-                      outerRadius={80}
+                      outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"
                     >
@@ -323,13 +286,14 @@ const JiraAnalytics = ({ data }) => {
                     </Pie>
                     <Tooltip />
                   </PieChart>
-                </ResponsiveContainer>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <p>No status data available to display</p>
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No status data available to display</p>
+                  <p className="text-xs mt-2">Debug: {data.length} issues total</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -339,23 +303,24 @@ const JiraAnalytics = ({ data }) => {
             <h4 className="text-lg font-medium text-gray-900">Issue Types</h4>
           </div>
           <div className="card-body">
-            {analytics.issueTypeDistribution.length > 0 ? (
-              <div className="analytics-chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={analytics.issueTypeDistribution}>
+            <div className="analytics-chart-container">
+              {analytics.issueTypeDistribution.length > 0 ? (
+                <div style={{ width: '100%', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <BarChart width={400} height={300} data={analytics.issueTypeDistribution} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
                     <Bar dataKey="value" fill="#3b82f6" />
                   </BarChart>
-                </ResponsiveContainer>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <p>No issue type data available to display</p>
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No issue type data available to display</p>
+                  <p className="text-xs mt-2">Debug: {data.length} issues total</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

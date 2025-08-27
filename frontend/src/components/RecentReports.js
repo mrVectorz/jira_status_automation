@@ -149,11 +149,11 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
           <div key={report.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
             <div className="flex justify-between items-start">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center space-x-2 mb-1">
-                  <h4 className="text-sm font-medium text-gray-900 truncate">
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="text-sm font-medium text-gray-900 truncate mr-3">
                     {report.projectKey}
                   </h4>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap">
                     {report.issueCount} issues
                   </span>
                 </div>
@@ -168,17 +168,17 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
                 </div>
               </div>
               
-              <div className="flex flex-col space-y-1 ml-2">
+              <div className="flex flex-col space-y-2 ml-3">
                 <button
                   onClick={() => onLoadReport(report)}
-                  className="text-xs text-primary-600 hover:text-primary-800 font-medium"
+                  className="btn btn-primary text-xs py-1 px-2 min-w-0"
                   title="Load this report"
                 >
                   Load
                 </button>
                 <button
                   onClick={() => onDeleteReport(report.id)}
-                  className="text-xs text-red-600 hover:text-red-800"
+                  className="btn btn-danger text-xs py-1 px-2 min-w-0"
                   title="Delete this report"
                 >
                   Delete
