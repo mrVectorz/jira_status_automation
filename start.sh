@@ -73,13 +73,24 @@ cd ..
 echo ""
 echo "✅ All dependencies installed successfully!"
 
+# Check dependencies
+echo ""
+echo "🔍 Verifying Python dependencies..."
+if ./venv/bin/python check_dependencies.py; then
+    echo "✅ All Python dependencies verified!"
+else
+    echo "❌ Dependency verification failed!"
+    echo "   This may cause runtime errors."
+fi
+
 # Test the API
 echo ""
 echo "🧪 Testing API functionality..."
-if python3 test_api.py; then
+if ./venv/bin/python test_api.py; then
     echo "✅ API tests passed!"
 else
     echo "⚠️  Some API tests failed, but the application should still work"
+    echo "   Check the error above for troubleshooting information."
 fi
 
 echo ""
@@ -88,7 +99,8 @@ echo ""
 
 # Start backend in background
 echo "Starting backend server..."
-./venv/bin/python run_server.py &
+echo "Backend logs will be written to: backend.log"
+./venv/bin/python run_server.py > backend.log 2>&1 &
 BACKEND_PID=$!
 
 # Wait a moment for backend to start
@@ -96,13 +108,14 @@ sleep 3
 
 # Start frontend
 echo "Starting frontend server..."
+echo "Frontend logs will be written to: frontend/frontend.log"
 cd frontend
 
 # Set frontend environment variables
 export PORT=${FRONTEND_PORT}
 export REACT_APP_API_URL="http://localhost:${BACKEND_PORT}"
 
-npm start &
+npm start > frontend.log 2>&1 &
 FRONTEND_PID=$!
 
 # Wait a moment for frontend to start
@@ -126,6 +139,10 @@ echo ""
 echo "To stop the application:"
 echo "  - Press Ctrl+C to stop this script"
 echo "  - Or run: kill $BACKEND_PID $FRONTEND_PID"
+echo ""
+echo "Troubleshooting logs:"
+echo "  - Backend logs: backend.log"
+echo "  - Frontend logs: frontend/frontend.log"
 echo ""
 
 # Wait for user to stop

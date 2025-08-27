@@ -50,7 +50,8 @@ Use the automated start script that handles port configuration and virtual envir
 This script will automatically:
 - Create a Python virtual environment if needed
 - Install all Python and Node.js dependencies
-- Start both backend and frontend servers
+- Verify all dependencies are correctly installed
+- Start both backend and frontend servers with comprehensive logging
 
 **Default ports:**
 - Backend: `http://localhost:8000`
@@ -279,13 +280,49 @@ FastAPI automatically generates interactive API documentation available at:
    - Check that the frontend can reach the configured backend URL
    - Verify CORS origins are properly configured
 
-### Logs
+7. **Dependency Issues**:
+   - Run `./venv/bin/python check_dependencies.py` to verify all modules
+   - Check `backend.log` for any import errors
+   - Reinstall dependencies: `./venv/bin/pip install -r requirements.txt`
 
-Backend logs are available in the console where you started the server. The application logs:
+8. **Service Not Starting**:
+   - Check log files: `backend.log` and `frontend/frontend.log`
+   - Verify virtual environment: `./venv/bin/python --version`
+   - Ensure ports are available: `lsof -i :8000` and `lsof -i :3001`
+
+### Logs and Troubleshooting
+
+The application now includes comprehensive logging for better troubleshooting:
+
+**Log Files:**
+- `backend.log`: Backend API server logs (requests, responses, errors)
+- `frontend/frontend.log`: Frontend React development server logs
+- Console output: Real-time startup and dependency verification
+
+**Dependency Verification:**
+- `check_dependencies.py`: Standalone script to verify all Python dependencies
+- Run manually: `./venv/bin/python check_dependencies.py`
+
+**What's Logged:**
 - API requests and responses
-- Authentication attempts
-- JQL query execution
-- Error details for debugging
+- Authentication attempts and results
+- JQL query execution and timing
+- Dependency installation and verification
+- Startup process and port configuration
+- Error details with stack traces
+- Frontend build and compilation status
+
+**Accessing Logs:**
+```bash
+# View backend logs
+tail -f backend.log
+
+# View frontend logs  
+tail -f frontend/frontend.log
+
+# Check dependency status
+./venv/bin/python check_dependencies.py
+```
 
 ## License
 

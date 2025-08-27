@@ -144,21 +144,37 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      {/* Modern Header */}
+      <header className="bg-white shadow-lg border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Jira Status Dashboard
-              </h1>
-              <p className="mt-1 text-sm text-gray-500">
-                Generate comprehensive reports from your Jira projects
-              </p>
-            </div>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-500">
-                {recentReports.length} recent reports
+              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-blue-600">
+                  Jira Status Dashboard
+                </h1>
+                <p className="mt-1 text-sm text-gray-600">
+                  Generate comprehensive reports from your Jira projects with advanced analytics
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-6">
+              <div className="hidden md:flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Online</span>
+                </div>
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{recentReports.length} recent reports</span>
+                </div>
               </div>
             </div>
           </div>
@@ -251,11 +267,16 @@ function App() {
       <footer className="bg-white border-t border-gray-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-500">
-              &copy; 2024 Jira Status Automation. Built with React and FastAPI.
+            <p className="text-sm text-gray-600">
+              © 2024 Jira Status Automation. Built with React & FastAPI.
             </p>
-            <div className="flex space-x-4 text-sm text-gray-500">
-              <span>Dashboard View</span>
+            <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <span className="flex items-center space-x-1">
+                <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>Secure & Private</span>
+              </span>
               <span>•</span>
               <span>Powered by Tailwind CSS</span>
             </div>

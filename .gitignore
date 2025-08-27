@@ -234,6 +234,7 @@ dist
 *.log
 backend.log
 server.log
+frontend/frontend.log
 
 # Configuration files with sensitive data
 .env
