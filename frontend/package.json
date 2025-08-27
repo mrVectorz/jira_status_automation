@@ -1,0 +1,50 @@
+{
+  "name": "jira-status-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React frontend for Jira Status Automation",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.2",
+    "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^3.1.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "PORT=${PORT:-3001} craco start",
+    "start:3002": "PORT=3002 craco start",
+    "start:3003": "PORT=3003 craco start",
+    "start:custom": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@tailwindcss/forms": "^0.5.10",
+    "tailwindcss": "^4.1.12"
+  }
+}
