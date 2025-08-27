@@ -59,14 +59,14 @@ const JiraCardDetailsModal = ({ isOpen, onClose, issue }) => {
             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeColor(issue.status?.name)}`}>
               {issue.status?.name || 'Unknown'}
             </span>
-            {issue.issue_type && (
+            {issue.issue_type?.name && issue.issue_type.name !== 'Unknown' && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                {issue.issue_type.name}
+                {String(issue.issue_type.name).replace(/undefined/gi, '').trim() || 'Task'}
               </span>
             )}
-            {issue.priority && (
+            {issue.priority?.name && issue.priority.name !== 'Unknown' && (
               <span className={`text-xs font-medium ${getPriorityColor(issue.priority.name)}`}>
-                Priority: {issue.priority.name}
+                Priority: {String(issue.priority.name).replace(/undefined/gi, '').trim()}
               </span>
             )}
           </div>

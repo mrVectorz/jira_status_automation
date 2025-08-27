@@ -168,7 +168,7 @@ const JiraReportsTable = ({ data, onClear, projectKey, dateRange }) => {
       issue.key || '',
       `"${(issue.summary || '').replace(/"/g, '""')}"`,
       issue.status?.name || '',
-      issue.issue_type?.name || '',
+      (issue.issue_type?.name && issue.issue_type.name !== 'Unknown') ? issue.issue_type.name : '',
       issue.priority?.name || '',
       issue.assignee?.display_name || '',
       issue.reporter?.display_name || '',
@@ -350,25 +350,25 @@ const JiraReportsTable = ({ data, onClear, projectKey, dateRange }) => {
               <React.Fragment key={issue.key}>
                 <tr className="table-row">
                   <td className="table-cell">
-                    <div className="flex items-center min-w-0">
-                      <span className="font-medium text-primary-600 truncate">{issue.key}</span>
-                      {issue.issue_type && (
-                        <span className="ml-2 text-xs text-gray-500 flex-shrink-0">
-                          {issue.issue_type.name}
-                        </span>
-                      )}
-                    </div>
+                    <span className="font-medium text-primary-600 truncate">{issue.key}</span>
                   </td>
                   <td className="table-cell">
                     <div className="min-w-0 max-w-xs">
                       <p className="text-sm font-medium text-gray-900 truncate">
                         {issue.summary}
                       </p>
-                      {issue.priority && (
-                        <p className="text-xs text-gray-500 truncate">
-                          Priority: {issue.priority.name}
-                        </p>
-                      )}
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {issue.issue_type?.name && issue.issue_type.name !== 'Unknown' && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                            {String(issue.issue_type.name).replace(/undefined/gi, '').trim() || 'Task'}
+                          </span>
+                        )}
+                        {issue.priority?.name && issue.priority.name !== 'Unknown' && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                            {String(issue.priority.name).replace(/undefined/gi, '').trim()}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td className="table-cell">

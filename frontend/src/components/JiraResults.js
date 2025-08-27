@@ -261,11 +261,34 @@ const JiraResults = ({ data, onClear }) => {
                   <span className={getStatusClass(issue.status)}>
                     {issue.status?.name || 'Unknown'}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: '#666' }}>
-                    {issue.issue_type?.name || 'Unknown Type'}
-                  </span>
                 </div>
                 <div className="issue-summary">{issue.summary}</div>
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+                  {issue.issue_type?.name && issue.issue_type.name !== 'Unknown' && (
+                    <span style={{
+                      background: '#e3f2fd',
+                      color: '#1976d2',
+                      padding: '0.25rem 0.5rem',
+                      borderRadius: '12px',
+                      fontSize: '0.75rem',
+                      fontWeight: '500'
+                    }}>
+                      {String(issue.issue_type.name).replace(/undefined/gi, '').trim() || 'Task'}
+                    </span>
+                  )}
+                  {issue.priority?.name && issue.priority.name !== 'Unknown' && (
+                    <span style={{
+                      background: '#f5f5f5',
+                      color: '#333',
+                      padding: '0.25rem 0.5rem',
+                      borderRadius: '12px',
+                      fontSize: '0.75rem',
+                      fontWeight: '500'
+                    }}>
+                      {String(issue.priority.name).replace(/undefined/gi, '').trim()}
+                    </span>
+                  )}
+                </div>
               </div>
               <div style={{ fontSize: '1.2rem', color: '#666' }}>
                 {expandedIssue === issue.key ? '−' : '+'}
@@ -281,9 +304,6 @@ const JiraResults = ({ data, onClear }) => {
               )}
               {issue.reporter && (
                 <span>Reporter: {issue.reporter.display_name}</span>
-              )}
-              {issue.priority && (
-                <span>Priority: {issue.priority.name}</span>
               )}
             </div>
 
