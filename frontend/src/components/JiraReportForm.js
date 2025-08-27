@@ -210,19 +210,20 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
   };
 
   return (
-    <div className="form-container">
-      <h2>Generate Jira Report</h2>
-      <p>Enter your Jira connection details and date range to generate a comprehensive issue report.</p>
+    <div className="card">
+      <div className="card-header">
+        <h2 className="text-xl font-semibold text-gray-900">Generate Jira Report</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Enter your Jira connection details and date range to generate a comprehensive issue report.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-grid">
+      <div className="card-body">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Jira URL Input */}
-          <div className="form-group">
-            <label htmlFor="jiraUrl">
+          <div>
+            <label htmlFor="jiraUrl" className="form-label">
               Jira URL *
-              <small style={{ display: 'block', fontWeight: 'normal', color: '#666', marginTop: '2px' }}>
-                e.g., https://your-company.atlassian.net
-              </small>
             </label>
             <input
               type="text"
@@ -232,20 +233,23 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
               onChange={handleInputChange}
               placeholder="https://your-company.atlassian.net"
               disabled={isLoading}
-              className={validationErrors.jiraUrl ? 'error' : ''}
+              className={`form-input ${validationErrors.jiraUrl ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
             />
             {validationErrors.jiraUrl && (
-              <span className="error-text">{validationErrors.jiraUrl}</span>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.jiraUrl}
+              </div>
             )}
+            <p className="mt-1 text-xs text-gray-500">
+              Your Jira instance URL (e.g., https://company.atlassian.net)
+            </p>
           </div>
 
           {/* Personal Access Token Input */}
-          <div className="form-group">
-            <label htmlFor="personalAccessToken">
+          <div>
+            <label htmlFor="personalAccessToken" className="form-label">
               Personal Access Token *
-              <small style={{ display: 'block', fontWeight: 'normal', color: '#666', marginTop: '2px' }}>
-                Generate in Jira: Profile → Security → API tokens
-              </small>
             </label>
             <input
               type="password"
@@ -255,20 +259,23 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
               onChange={handleInputChange}
               placeholder="Your Jira API token"
               disabled={isLoading}
-              className={validationErrors.personalAccessToken ? 'error' : ''}
+              className={`form-input ${validationErrors.personalAccessToken ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
             />
             {validationErrors.personalAccessToken && (
-              <span className="error-text">{validationErrors.personalAccessToken}</span>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.personalAccessToken}
+              </div>
             )}
+            <p className="mt-1 text-xs text-gray-500">
+              Generate in Jira: Profile → Security → API tokens
+            </p>
           </div>
 
           {/* Project Key Input */}
-          <div className="form-group">
-            <label htmlFor="projectKey">
+          <div>
+            <label htmlFor="projectKey" className="form-label">
               Project Key *
-              <small style={{ display: 'block', fontWeight: 'normal', color: '#666', marginTop: '2px' }}>
-                e.g., PROJ, DEV, TEST
-              </small>
             </label>
             <input
               type="text"
@@ -278,20 +285,26 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
               onChange={handleInputChange}
               placeholder="PROJ"
               disabled={isLoading}
-              className={validationErrors.projectKey ? 'error' : ''}
+              className={`form-input ${validationErrors.projectKey ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
               style={{ textTransform: 'uppercase' }}
             />
             {validationErrors.projectKey && (
-              <span className="error-text">{validationErrors.projectKey}</span>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.projectKey}
+              </div>
             )}
+            <p className="mt-1 text-xs text-gray-500">
+              Found in project settings or issue URLs (e.g., PROJ in PROJ-123)
+            </p>
           </div>
 
           {/* Date Range Inputs */}
-          <div className="form-group">
-            <label>Date Range *</label>
-            <div className="date-inputs">
+          <div>
+            <label className="form-label">Date Range *</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="startDate" style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>
+                <label htmlFor="startDate" className="block text-xs font-medium text-gray-600 mb-1">
                   Start Date
                 </label>
                 <input
@@ -301,14 +314,17 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
                   value={formData.startDate}
                   onChange={handleInputChange}
                   disabled={isLoading}
-                  className={validationErrors.startDate ? 'error' : ''}
+                  className={`form-input ${validationErrors.startDate ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
                 />
                 {validationErrors.startDate && (
-                  <span className="error-text">{validationErrors.startDate}</span>
+                  <div className="form-error">
+                    <span className="error-icon">⚠️</span>
+                    {validationErrors.startDate}
+                  </div>
                 )}
               </div>
               <div>
-                <label htmlFor="endDate" style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>
+                <label htmlFor="endDate" className="block text-xs font-medium text-gray-600 mb-1">
                   End Date
                 </label>
                 <input
@@ -318,49 +334,61 @@ const JiraReportForm = ({ onReportSuccess, onReportError, onLoadingChange, isLoa
                   value={formData.endDate}
                   onChange={handleInputChange}
                   disabled={isLoading}
-                  className={validationErrors.endDate ? 'error' : ''}
+                  className={`form-input ${validationErrors.endDate ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
                 />
                 {validationErrors.endDate && (
-                  <span className="error-text">{validationErrors.endDate}</span>
+                  <div className="form-error">
+                    <span className="error-icon">⚠️</span>
+                    {validationErrors.endDate}
+                  </div>
                 )}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Form Actions */}
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Generating Report...' : 'Generate Report'}
-          </button>
+          {/* Form Actions */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="btn btn-primary flex-1 sm:flex-none"
+            >
+              {isLoading ? (
+                <>
+                  <div className="spinner-small mr-2"></div>
+                  Generating Report...
+                </>
+              ) : (
+                'Generate Report'
+              )}
+            </button>
 
-          <button
-            type="button"
-            onClick={handleExampleData}
-            className="btn btn-secondary"
-            disabled={isLoading}
-          >
-            Fill Example Data
-          </button>
+            <button
+              type="button"
+              onClick={handleExampleData}
+              disabled={isLoading}
+              className="btn btn-outline"
+            >
+              Fill Example Data
+            </button>
+          </div>
 
-          <small style={{ color: '#666', marginLeft: 'auto' }}>
+          <div className="text-xs text-gray-500">
             * Required fields
-          </small>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
 
-      {/* Help Text */}
-      <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f8f9fa', borderRadius: '4px', fontSize: '0.9rem', color: '#666' }}>
-        <h4 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Need help?</h4>
-        <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
-          <li>Generate a Personal Access Token in Jira: Profile → Security → API tokens</li>
-          <li>Find your Project Key in the project settings or URL (e.g., PROJ in https://company.atlassian.net/browse/PROJ-123)</li>
-          <li>Reports can include up to 1 year of data. For larger datasets, consider smaller date ranges</li>
-        </ul>
+      {/* Help Section */}
+      <div className="card-footer">
+        <div className="text-sm">
+          <h4 className="font-medium text-gray-900 mb-2">Need help?</h4>
+          <ul className="space-y-1 text-gray-600">
+            <li>• Generate a Personal Access Token in Jira: Profile → Security → API tokens</li>
+            <li>• Find your Project Key in project settings or URLs (e.g., PROJ in PROJ-123)</li>
+            <li>• Reports can include up to 1 year of data. For larger datasets, consider smaller date ranges</li>
+          </ul>
+        </div>
       </div>
     </div>
   );

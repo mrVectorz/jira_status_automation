@@ -217,7 +217,10 @@ const ConfigurationForm = ({
               className={`form-input ${validationErrors.jiraUrl ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
             />
             {validationErrors.jiraUrl && (
-              <p className="form-error">{validationErrors.jiraUrl}</p>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.jiraUrl}
+              </div>
             )}
             <p className="mt-1 text-xs text-gray-500">
               Your Jira instance URL (e.g., https://company.atlassian.net)
@@ -240,7 +243,10 @@ const ConfigurationForm = ({
               className={`form-input ${validationErrors.personalAccessToken ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
             />
             {validationErrors.personalAccessToken && (
-              <p className="form-error">{validationErrors.personalAccessToken}</p>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.personalAccessToken}
+              </div>
             )}
             <p className="mt-1 text-xs text-gray-500">
               Generate in Jira: Profile → Security → API tokens
@@ -264,7 +270,10 @@ const ConfigurationForm = ({
               style={{ textTransform: 'uppercase' }}
             />
             {validationErrors.projectKey && (
-              <p className="form-error">{validationErrors.projectKey}</p>
+              <div className="form-error">
+                <span className="error-icon">⚠️</span>
+                {validationErrors.projectKey}
+              </div>
             )}
             <p className="mt-1 text-xs text-gray-500">
               Found in project settings or issue URLs (e.g., PROJ in PROJ-123)
@@ -289,7 +298,10 @@ const ConfigurationForm = ({
                   className={`form-input ${validationErrors.startDate ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
                 />
                 {validationErrors.startDate && (
-                  <p className="form-error">{validationErrors.startDate}</p>
+                  <div className="form-error">
+                    <span className="error-icon">⚠️</span>
+                    {validationErrors.startDate}
+                  </div>
                 )}
               </div>
               <div>
@@ -306,7 +318,10 @@ const ConfigurationForm = ({
                   className={`form-input ${validationErrors.endDate ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
                 />
                 {validationErrors.endDate && (
-                  <p className="form-error">{validationErrors.endDate}</p>
+                  <div className="form-error">
+                    <span className="error-icon">⚠️</span>
+                    {validationErrors.endDate}
+                  </div>
                 )}
               </div>
             </div>
