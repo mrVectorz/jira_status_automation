@@ -80,13 +80,13 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
 
     if (sortOrder === 'asc') {
       return (
-        <svg className={`${baseClasses} text-primary-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`${baseClasses} text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 15l4-4 4 4" />
         </svg>
       );
     } else {
       return (
-        <svg className={`${baseClasses} text-primary-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`${baseClasses} text-blue-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4 4 4-4" />
         </svg>
       );
@@ -128,14 +128,14 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
         <div className="flex space-x-4 text-sm">
           <button
             onClick={() => handleSortChange('date')}
-            className={`flex items-center space-x-1 ${sortBy === 'date' ? 'text-primary-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`flex items-center space-x-1 ${sortBy === 'date' ? 'text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
           >
             <span>Date</span>
             {getSortIcon('date')}
           </button>
           <button
             onClick={() => handleSortChange('project')}
-            className={`flex items-center space-x-1 ${sortBy === 'project' ? 'text-primary-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`flex items-center space-x-1 ${sortBy === 'project' ? 'text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}
           >
             <span>Project</span>
             {getSortIcon('project')}
@@ -147,10 +147,11 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
       <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
         {sortedReports.map((report) => (
           <div key={report.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-            <div className="flex justify-between items-start">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <h4 className="text-sm font-medium text-gray-900 truncate mr-3">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+              {/* Left side - Project info */}
+              <div style={{ flex: '1 1 0%', minWidth: '0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                  <h4 className="text-sm font-medium text-gray-900 truncate">
                     {report.projectKey}
                   </h4>
                   <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap">
@@ -168,17 +169,18 @@ const RecentReports = ({ reports, onLoadReport, onDeleteReport }) => {
                 </div>
               </div>
               
-              <div className="flex flex-col space-y-2 ml-3">
+              {/* Right side - Action buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flexShrink: '0' }}>
                 <button
                   onClick={() => onLoadReport(report)}
-                  className="btn btn-primary text-xs py-1 px-2 min-w-0"
+                  className="btn btn-primary text-xs py-1 px-3 min-w-16"
                   title="Load this report"
                 >
                   Load
                 </button>
                 <button
                   onClick={() => onDeleteReport(report.id)}
-                  className="btn btn-danger text-xs py-1 px-2 min-w-0"
+                  className="btn btn-danger text-xs py-1 px-3 min-w-16"
                   title="Delete this report"
                 >
                   Delete
